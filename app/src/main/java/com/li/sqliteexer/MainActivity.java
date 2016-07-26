@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.li.sqliteexer.database.MyDatabaseHelper;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private Button mCreateDbButton;
     private MyDatabaseHelper mDbHelper;
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mUpdateButton;
     private Button mDeleteButton;
     private Button mQueryButton;
+    private Button mReplaceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mQueryButton = (Button) findViewById(R.id.activity_main_query_button);
         mQueryButton.setOnClickListener(this);
+
+        mReplaceButton = (Button) findViewById(R.id.activity_main_replace_button);
+        mReplaceButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        SQLiteDatabase db;
         switch (v.getId()) {
             case R.id.activity_main_create_db_button:
                 mDbHelper.getReadableDatabase();
                 break;
             case R.id.activity_main_insert_button:
-                SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                db = mDbHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
                 cv.put("name", "The Da Vinci Code");
                 cv.put("author", "Dan Brown");
@@ -96,6 +101,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "name: " + name + " ;pages: " + pages);
                 }
                 break;
+            case R.id.activity_main_replace_button:
+                db = mDbHelper.getWritableDatabase();
+                db.beginTransaction();
+
+                try {
+                    db.delete("book", null, null);
+                    if (false) {
+                        throw new NullPointerException();
+                    }
+                    db.execSQL("insert into book(author,name,pages) values(?,?,?)",
+                            new String[]{"author", "name", "100"});
+                    db.setTransactionSuccessful();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } finally {
+                    db.endTransaction();
+                }
+
+
         }
     }
 }
