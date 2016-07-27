@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
+import com.li.sqliteexer.database.BookStoreContract.Book;
 
 import com.li.sqliteexer.MainActivity;
 
@@ -12,12 +13,12 @@ import com.li.sqliteexer.MainActivity;
  */
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context mContext;
-    public static final String CREATE_BOOK = "create table book (" +
-            "id integer primary key autoincrement," +
-            "author text," +
-            "price real," +
-            "pages int," +
-            "name text)";
+    public static final String CREATE_BOOK = "create table " + Book.TABLE_NAME +"(" +
+            Book._ID + " integer primary key autoincrement," +
+            Book.COLUMN_AUTHOR + "text," +
+            Book.COLUN_PRICE + " real," +
+            Book.COLUN_PAGES +" int," +
+            Book.COLUNM_NAME + " text)";
 
     public static final String CREATE_CATEGORY = "create table category (" +
             "id integer primary key autoincrement," +

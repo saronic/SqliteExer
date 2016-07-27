@@ -41,4 +41,10 @@
         android:layout_height="wrap_content"
         android:text="replace" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="xUtils"
+        android:id="@+id/xutilsButtonId" />
+
 </LinearLayout>

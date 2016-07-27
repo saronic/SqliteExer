@@ -9,7 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.li.sqliteexer.database.BookStoreContract;
 import com.li.sqliteexer.database.MyDatabaseHelper;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -20,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mDeleteButton;
     private Button mQueryButton;
     private Button mReplaceButton;
+    private Button xutilsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mReplaceButton = (Button) findViewById(R.id.activity_main_replace_button);
         mReplaceButton.setOnClickListener(this);
+
+        // xuitls Button.
+        xutilsButton = (Button) findViewById(R.id.xutilsButtonId);
+        xutilsButton.setOnClickListener(this);
     }
 
     @Override
@@ -56,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.activity_main_insert_button:
                 db = mDbHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
-                cv.put("name", "The Da Vinci Code");
+                cv.put(BookStoreContract.Book.COLUNM_NAME, "The Da Vinci Code");
                 cv.put("author", "Dan Brown");
                 cv.put("pages", 454);
                 cv.put("price", 16.96);
@@ -118,7 +130,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } finally {
                     db.endTransaction();
                 }
+            case R.id.xutilsButtonId:
+                HttpUtils http = new HttpUtils();
+                http.send(HttpRequest.HttpMethod.GET,
+                        "http://tapi.test.tuoguibao.com/basicapi.php?ac=1002&mobile=18562172800&password=123456",
+                        new RequestCallBack<String>(){
+                            @Override
+                            public void onLoading(long total, long current, boolean isUploading) {
+//                                testTextView.setText(current + "/" + total);
+                            }
 
+                            @Override
+                            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                                Log.i("jasonTag",responseInfo.result);
+                            }
+
+                            @Override
+                            public void onStart() {
+                            }
+
+                            @Override
+                            public void onFailure(HttpException error, String msg) {
+                                Log.i("jasonTag","网络连接失败！");
+                            }
+                        });
 
         }
     }
