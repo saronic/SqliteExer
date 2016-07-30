@@ -4,9 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
-import com.li.sqliteexer.database.BookStoreContract.Book;
 
-import com.li.sqliteexer.MainActivity;
+import com.li.sqliteexer.database.BookStoreContract.Book;
 
 /**
  * Created by lsx on 2016/7/26.
@@ -25,7 +24,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "category_name text," +
             "category_code integer)";
 
-    public MyDatabaseHelper(MainActivity context, String name,
+    public MyDatabaseHelper(Context context, String name,
                             SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
