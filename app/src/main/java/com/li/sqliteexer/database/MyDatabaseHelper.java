@@ -15,7 +15,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context mContext;
     public static final String CREATE_BOOK = "create table " + Book.TABLE_NAME +"(" +
             Book._ID + " integer primary key autoincrement," +
-            Book.COLUMN_AUTHOR + "text," +
+            Book.COLUMN_AUTHOR + " text," +
             Book.COLUN_PRICE + " real," +
             Book.COLUN_PAGES +" int," +
             Book.COLUNM_NAME + " text)";

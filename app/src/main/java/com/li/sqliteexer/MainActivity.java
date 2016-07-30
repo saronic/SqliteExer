@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDbHelper = new MyDatabaseHelper(this, "bookstore.db", null, 3);
-        mCreateDbButton = (Button) findViewById(R.id.activity_main_create_db_button);
+       mCreateDbButton = (Button) findViewById(R.id.activity_main_create_db_button);
         mCreateDbButton.setOnClickListener(this);
 
         mInsertButton = (Button) findViewById(
@@ -53,9 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mReplaceButton = (Button) findViewById(R.id.activity_main_replace_button);
         mReplaceButton.setOnClickListener(this);
 
+        /*
         // xuitls Button.
         xutilsButton = (Button) findViewById(R.id.xutilsButtonId);
         xutilsButton.setOnClickListener(this);
+        */
     }
 
     @Override
