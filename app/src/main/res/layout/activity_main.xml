@@ -47,4 +47,10 @@
         android:text="xUtils"
         android:id="@+id/xutilsButtonId" />
 
+    <Button
+        android:id="@+id/activity_main_content_provider_query_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Content provider query" />
+
 </LinearLayout>

@@ -3,11 +3,13 @@ package com.li.sqliteexer;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.li.sqliteexer.database.BookStoreContract;
 import com.li.sqliteexer.database.MyDatabaseHelper;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mQueryButton;
     private Button mReplaceButton;
     private Button xutilsButton;
+    private Button mContentProviderQueryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xutilsButton = (Button) findViewById(R.id.xutilsButtonId);
         xutilsButton.setOnClickListener(this);
         */
+
+        mContentProviderQueryButton = (Button) findViewById(
+                R.id.activity_main_content_provider_query_button);
+        mContentProviderQueryButton.setOnClickListener(this);
     }
 
     @Override
@@ -157,6 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Log.i("jasonTag","网络连接失败！");
                             }
                         });
+            case R.id.activity_main_content_provider_query_button:
+                Uri uri = Uri.parse("content://com.li.sqliteexer/book/4");
+                cursor = getContentResolver().query(uri, null, null, null, null);
+                if (cursor.moveToNext()) {
+                    String bookName = cursor.getString(cursor.getColumnIndex(BookStoreContract.Book.COLUNM_NAME));
+                    Toast.makeText(MainActivity.this, bookName, Toast.LENGTH_SHORT).show();
+                }
 
         }
     }

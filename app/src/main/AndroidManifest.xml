@@ -33,6 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.li.sqliteexer"
+            android:name=".database.BookStoreContentProvider" />
     </application>
 
 </manifest>

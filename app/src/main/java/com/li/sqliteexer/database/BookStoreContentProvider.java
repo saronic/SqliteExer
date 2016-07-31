@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -20,7 +21,7 @@ public class BookStoreContentProvider extends ContentProvider {
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         String authority = BookStoreContract.AUTHORITY;
-        //content://com.li.sqliteexer/book
+        //content://com.li.sqliteexer/book/4
         matcher.addURI(authority, BookStoreContract.Book.TABLE_NAME, BOOK_DIR);
         matcher.addURI(authority, BookStoreContract.Book.TABLE_NAME + "/#", BOOK_ITEM);
         return matcher;
@@ -36,7 +37,21 @@ public class BookStoreContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
-        return null;
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = null;
+        switch (sURI_MATCHER.match(uri)) {
+            case BOOK_DIR:
+                cursor = db.query("book", projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            case BOOK_ITEM:
+                //content://com.li.sqliteexer/book/4
+                String bookId = uri.getPathSegments().get(1);
+                cursor = db.query("book", projection, "_id=?", new String[]{bookId}, null, null, null);
+                break;
+            default:
+                throw new UnsupportedOperationException("unknown uri: " + uri);
+        }
+        return cursor;
     }
 
     @Nullable
