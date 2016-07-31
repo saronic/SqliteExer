@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mReplaceButton;
     private Button xutilsButton;
     private Button mContentProviderQueryButton;
+    private Button mContentProviderInsertButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContentProviderQueryButton = (Button) findViewById(
                 R.id.activity_main_content_provider_query_button);
         mContentProviderQueryButton.setOnClickListener(this);
+
+        mContentProviderInsertButton = (Button) findViewById(
+                R.id.activity_main_content_provider_insert_button);
+        mContentProviderInsertButton.setOnClickListener(this);
     }
 
     @Override
@@ -172,6 +177,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, bookName, Toast.LENGTH_SHORT).show();
                 }
 
+            case R.id.activity_main_content_provider_insert_button:
+                ContentValues cvContentProvider = new ContentValues();
+                cvContentProvider.put("name", "xxxxxxxxxxxxxxxxx");
+                cvContentProvider.put("pages", 600);
+                Uri contentProviderInsertUri = Uri.parse("content://com.li.sqliteexer/book");
+                getContentResolver().insert(contentProviderInsertUri, cvContentProvider);
         }
     }
 }

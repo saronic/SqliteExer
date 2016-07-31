@@ -53,4 +53,10 @@
         android:layout_height="wrap_content"
         android:text="Content provider query" />
 
+    <Button
+        android:id="@+id/activity_main_content_provider_insert_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Content provider insert" />
+
 </LinearLayout>

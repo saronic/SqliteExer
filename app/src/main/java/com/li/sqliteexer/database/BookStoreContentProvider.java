@@ -44,7 +44,7 @@ public class BookStoreContentProvider extends ContentProvider {
                 cursor = db.query("book", projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case BOOK_ITEM:
-                //content://com.li.sqliteexer/book/4
+                //content://com.li.sqliteexer/book/
                 String bookId = uri.getPathSegments().get(1);
                 cursor = db.query("book", projection, "_id=?", new String[]{bookId}, null, null, null);
                 break;
@@ -74,16 +74,49 @@ public class BookStoreContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        Uri returnUri;
+        switch (sURI_MATCHER.match(uri)) {
+            case BOOK_DIR:
+                SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                long id = db.insert("book", null, values);
+                returnUri = Uri.parse("content://com.li.sqliteexer/book/" + id);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        return returnUri;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        int count;
+        switch (sURI_MATCHER.match(uri)) {
+            case BOOK_DIR:
+                count = db.delete("book", selection, selectionArgs);
+                break;
+            case BOOK_ITEM:
+                //content://com.li.sqliteexer/book/
+                String bookId = uri.getPathSegments().get(1);
+                count = db.delete("book", "_id=?", new String[]{bookId});
+                break;
+            default:
+                throw new UnsupportedOperationException("unknown uri: " + uri);
+        }
+        return count;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int count;
+        switch (sURI_MATCHER.match(uri)) {
+            case BOOK_DIR:
+                count = db.update("book", values, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("unknown uri: " + uri);
+        }
+        return count;
     }
 }
